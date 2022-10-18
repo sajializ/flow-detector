@@ -18,3 +18,6 @@ if __name__ == "__main__":
 
     sniffer_thread.start()
     detector_thread.start()
+    
+    sniffer_thread.join()
+    detector_thread.join()

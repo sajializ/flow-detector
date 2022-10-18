@@ -1,6 +1,6 @@
 
 import pyshark
-from lib import packet
+from lib import datagram
 
 
 class Sniffer:
@@ -20,7 +20,7 @@ class Sniffer:
                 destination_port = packet[packet.transport_layer].dstport
                 packet_time = packet.sniff_time
                 
-                new_packet = Packet(protocol=protocol,
+                new_packet = datagram.Datagram(protocol=protocol,
                                     src_ip=source_address,
                                     dest_ip=destination_address,
                                     src_port=source_port,

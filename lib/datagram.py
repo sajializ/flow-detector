@@ -1,6 +1,6 @@
 
 
-class Packet:
+class Datagram:
 
     def __init__(self, protocol, src_ip, dest_ip, src_port, dest_port, time):
         self.protocol = protocol
