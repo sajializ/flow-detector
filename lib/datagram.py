@@ -1,8 +1,7 @@
-
-
 class Datagram:
-
-    def __init__(self, protocol, src_ip, dest_ip, src_port, dest_port, time, size, header_size):
+    def __init__(
+        self, protocol, src_ip, dest_ip, src_port, dest_port, time, size, header_size
+    ):
         self.protocol = protocol
         self.source_ip = src_ip
         self.destination_ip = dest_ip

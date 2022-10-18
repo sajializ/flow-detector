@@ -1,5 +1,5 @@
-
 import csv
+
 
 class CSVWriter:
     OUTPUT = "output.csv"
@@ -7,7 +7,6 @@ class CSVWriter:
     def open(self):
         self.fp = open(CSVWriter.OUTPUT, "w")
         self.writer = csv.writer(self.fp)
-
 
     def write(self, flow_stat):
         row = [
@@ -19,12 +18,9 @@ class CSVWriter:
             flow_stat.duration,
             flow_stat.sent_bytes,
             flow_stat.received_bytes,
-            flow_stat.sent_header_bytes
+            flow_stat.sent_header_bytes,
         ]
         self.writer.writerow(row)
 
-    
     def close(self):
         self.fp.close()
-
-            

@@ -1,4 +1,3 @@
-
 import sys
 import queue as Queue
 
@@ -10,16 +9,14 @@ from lib import csv_writer
 class Collector:
     QUEUE_TIMEOUT = 2
 
-    def __init__(self, writer = None):
+    def __init__(self, writer=None):
         self.flows = dict()
         self.running = True
         self.writer = writer if writer is not None else csv_writer.CSVWriter()
 
-
     def signal_handler(self, sig, frame):
         self.running = False
 
-    
     def collect(self, queue):
         while self.running:
             try:
@@ -38,7 +35,6 @@ class Collector:
                 self.flows[key].add_packet(packet)
 
         self.generate_stat()
-
 
     def generate_stat(self):
         self.writer.open()
