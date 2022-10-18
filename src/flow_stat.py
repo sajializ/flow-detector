@@ -1,4 +1,3 @@
-
 ## FlowStat stores the statistics to report.
 class FlowStat:
     def __init__(

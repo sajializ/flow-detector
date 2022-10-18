@@ -16,13 +16,11 @@ class CSVWriter:
         "Header Bytes FWD",
     ]
 
-
     ## Generates the output file and write header.
     def open(self):
         self.fp = open(CSVWriter.OUTPUT, "w")
         self.writer = csv.writer(self.fp)
         self.writer.writerow(CSVWriter.HEADER)
-
 
     ## Writes a row in the output file.
     # @param flow_stat The row to be written.
@@ -39,7 +37,6 @@ class CSVWriter:
             flow_stat.sent_header_bytes,
         ]
         self.writer.writerow(row)
-
 
     ## Closes the file pointer.
     def close(self):

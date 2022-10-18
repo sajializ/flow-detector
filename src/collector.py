@@ -17,7 +17,6 @@ class Collector:
         self.running = True
         self.writer = writer if writer is not None else csv_writer.CSVWriter()
 
-
     ## Handler to exit the thread.
     def signal_handler(self, sig, frame):
         self.running = False
@@ -43,7 +42,8 @@ class Collector:
 
         self.generate_stat()
 
-    ## Function to generate the result. This function uses a writer that allows writing in different ways (File, Network, ...).
+    ## Function to generate the result. This function uses a writer that allows writing in
+    #  different ways (File, Network, ...).
     def generate_stat(self):
         self.writer.open()
         for flow in self.flows.values():

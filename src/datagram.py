@@ -1,4 +1,3 @@
-
 ## Datagram stores the useful fields of an Internet packet.
 class Datagram:
     def __init__(
