@@ -1,11 +1,12 @@
 
+import sys
+import signal
+from queue import Queue
+from threading import Thread
+
 from lib import sniffer
 from lib import collector
 
-import signal
-import sys
-from queue import Queue
-from threading import Thread
 
 class FlowDetector:
 

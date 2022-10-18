@@ -1,18 +1,19 @@
 
-from lib import datagram
-from lib import flow
+import sys
 import queue as Queue
 
-import signal
-import sys
-import csv
+from lib import datagram
+from lib import flow
+from lib import csv_writer
+
 
 class Collector:
     QUEUE_TIMEOUT = 2
 
-    def __init__(self):
+    def __init__(self, writer = None):
         self.flows = dict()
         self.running = True
+        self.writer = writer if writer is not None else csv_writer.CSVWriter()
 
 
     def signal_handler(self, sig, frame):
@@ -40,6 +41,7 @@ class Collector:
 
 
     def generate_stat(self):
-        with open("output.csv", "w") as fp:
-            for flow in self.flows.values():
-                fp.write(str(flow.get_stat()) + '\n')
+        self.writer.open()
+        for flow in self.flows.values():
+            self.writer.write(flow.get_stat())
+        self.writer.close()

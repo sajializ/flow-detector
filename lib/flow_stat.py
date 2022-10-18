@@ -24,18 +24,6 @@ class FlowStat:
         self.sent_header_bytes = sent_header_bytes
 
 
-    def __str__(self):
-        return self.source_ip + ',' + \
-            self.destination_ip + ',' + \
-            " ".join(self.source_ports) + ',' + \
-            " ".join(self.destination_ports) + ',' + \
-            " ".join(self.protocols) + ',' + \
-            str(self.duration) + ',' + \
-            str(self.sent_bytes) + ',' + \
-            str(self.received_bytes) + ',' + \
-            str(self.sent_header_bytes)
-
-
     def add_source_port(self, port):
         self.source_ports.add(port)
 
