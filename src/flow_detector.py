@@ -6,8 +6,12 @@ from threading import Thread
 from src import sniffer
 from src import collector
 
-
+## FlowDetector creates two main threads of the program.
+#
+#  FlowDetector creates and manages two main threads over their lifetime.
 class FlowDetector:
+
+    ## Constructor, which could operate using default instances or mock instances.
     def __init__(self, sniffer_instance=None, collector_instance=None, ifname=None):
         self.sniffer = (
             sniffer_instance
@@ -20,6 +24,7 @@ class FlowDetector:
             else collector.Collector()
         )
 
+    ## The primary method of the class creates the threads.
     def run(self):
         shared_queue = Queue()
         signal.signal(signal.SIGINT, self.sniffer.signal_handler)

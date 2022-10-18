@@ -6,7 +6,7 @@ import os
 from _thread import interrupt_main
 from src import datagram
 
-
+## Sniffer captures the interface traffic using pyshark library.
 class Sniffer:
     def __init__(self, if_name):
         self.running = True
@@ -15,9 +15,12 @@ class Sniffer:
     def signal_handler(self, sig, frame):
         self.running = False
 
+    ## The main method captures and extracts necessary information.
     def sniff(self, queue):
         try:
             for packet in self.capture.sniff_continuously():
+
+                # After Ctrl+C, exit the thread.
                 if not self.running:
                     return
 
@@ -40,5 +43,4 @@ class Sniffer:
                     pass
 
         except pyshark.capture.live_capture.UnknownInterfaceException as e:
-            print(e)
             interrupt_main()

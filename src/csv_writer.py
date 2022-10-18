@@ -1,6 +1,7 @@
 import csv
 
 
+## CSVWriter writes into a CSV file.
 class CSVWriter:
     OUTPUT = "output.csv"
     HEADER = [
@@ -15,11 +16,16 @@ class CSVWriter:
         "Header Bytes FWD",
     ]
 
+
+    ## Generates the output file and write header.
     def open(self):
         self.fp = open(CSVWriter.OUTPUT, "w")
         self.writer = csv.writer(self.fp)
         self.writer.writerow(CSVWriter.HEADER)
 
+
+    ## Writes a row in the output file.
+    # @param flow_stat The row to be written.
     def write(self, flow_stat):
         row = [
             flow_stat.source_ip,
@@ -34,5 +40,7 @@ class CSVWriter:
         ]
         self.writer.writerow(row)
 
+
+    ## Closes the file pointer.
     def close(self):
         self.fp.close()

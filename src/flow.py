@@ -1,15 +1,17 @@
 from src import flow_stat
 
-
+## Flow stores the packets in a particular flow.
 class Flow:
     def __init__(self, src_ip, dest_ip):
         self.source_ip = src_ip
         self.destination_ip = dest_ip
         self.packets = list()
 
+    ## Adds corresponding packets of the flow.
     def add_packet(self, packet):
         self.packets.append(packet)
 
+    ## Generates statistics of the flow.
     def get_stat(self):
         stat = flow_stat.FlowStat(self.source_ip, self.destination_ip)
 

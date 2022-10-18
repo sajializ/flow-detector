@@ -1,3 +1,5 @@
+
+## Datagram stores the useful fields of an Internet packet.
 class Datagram:
     def __init__(
         self, protocol, src_ip, dest_ip, src_port, dest_port, time, size, header_size
