@@ -11,7 +11,6 @@ class Sniffer:
         self.inteface_name = if_name
         self.capture = pyshark.LiveCapture(interface=self.inteface_name)
         self.running = True
-        signal.signal(signal.SIGINT, self.signal_handler)
 
 
     def signal_handler(self, sig, frame):
@@ -20,25 +19,22 @@ class Sniffer:
 
     def sniff(self, queue):
         for packet in self.capture.sniff_continuously():
+            if not self.running:
+                return
+
             try:
-                protocol = packet.transport_layer
-                source_address = packet.ip.src
-                source_port = packet[packet.transport_layer].srcport
-                destination_address = packet.ip.dst
-                destination_port = packet[packet.transport_layer].dstport
-                packet_time = packet.sniff_time
-                
-                new_packet = datagram.Datagram(protocol=protocol,
-                                    src_ip=source_address,
-                                    dest_ip=destination_address,
-                                    src_port=source_port,
-                                    dest_port=destination_port,
-                                    time=packet_time)
+                new_packet = datagram.Datagram(protocol=packet.transport_layer,
+                                    src_ip=packet.ip.src,
+                                    dest_ip=packet.ip.dst,
+                                    src_port=packet[packet.transport_layer].srcport,
+                                    dest_port=packet[packet.transport_layer].dstport,
+                                    time=packet.sniff_time,
+                                    size=packet.ip.len,
+                                    header_size=packet.ip.hdr_len)
 
                 queue.put(new_packet)
+
             except AttributeError as e:
                 # New packet was controlling packet, discarded
                 pass
 
-            if not self.running:
-                return

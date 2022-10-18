@@ -1,27 +1,31 @@
 
 from lib import datagram
 from lib import flow
+import queue as Queue
 
 import signal
 import sys
 import csv
 
-class Detector:
+class Collector:
+    QUEUE_TIMEOUT = 2
 
     def __init__(self):
         self.flows = dict()
         self.running = True
-        signal.signal(signal.SIGINT, self.signal_handler)
 
 
     def signal_handler(self, sig, frame):
         self.running = False
 
     
-    def detect(self, queue):
+    def collect(self, queue):
         while self.running:
-            packet = queue.get()
-            
+            try:
+                packet = queue.get(True, Collector().QUEUE_TIMEOUT)
+            except Queue.Empty:
+                continue
+
             key = packet.source_ip + packet.destination_ip
             reversed_key = packet.destination_ip + packet.source_ip
             if key in self.flows.keys():
@@ -36,8 +40,6 @@ class Detector:
 
 
     def generate_stat(self):
-        with open("output.csv", "a") as fp:
-            writer = csv.writer(fp)
-            writer.writerow(["SourceIP", "DestinationIP", "SourcePort", "DestinationPort", "Protocol", "Duration", "Sent Bytes", "Recieved Bytes", "Header Bytes"])
+        with open("output.csv", "w") as fp:
             for flow in self.flows.values():
-                writer.writerow(flow.get_stat())
+                fp.write(str(flow.get_stat()) + '\n')

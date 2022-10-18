@@ -1,4 +1,6 @@
 
+from lib import flow_stat
+
 
 class Flow:
 
@@ -13,16 +15,18 @@ class Flow:
 
     
     def get_stat(self):
-        send_ports = set()
-        receive_ports = set()
-        protocols = set()
-        sent_bytes = 0
-        received_bytes = 0
-        header_bytes = 0
+        stat = flow_stat.FlowStat(self.source_ip, self.destination_ip)
 
         for packet in self.packets:
-            send_ports.add(packet.source_port)
-            receive_ports.add(packet.destination_port)
-            protocols.add(packet.protocol)
-        
-        return [self.source_ip, self.destination_ip, " ".join(send_ports), " ".join(receive_ports), " ".join(protocols), sent_bytes, received_bytes, header_bytes]
+            stat.add_source_port(packet.source_port)
+            stat.add_destination_port(packet.destination_port)
+            stat.add_protocol(packet.protocol)
+
+            if self.source_ip == packet.source_ip:
+                stat.increase_sent_bytes(packet.size)
+                stat.increase_header_bytes(packet.header_size)
+            else:
+                stat.increase_received_bytes(packet.size)
+
+        stat.set_duration(self.packets[-1].sniff_time - self.packets[0].sniff_time)
+        return stat
