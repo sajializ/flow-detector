@@ -3,8 +3,8 @@ import signal
 from queue import Queue
 from threading import Thread
 
-from lib import sniffer
-from lib import collector
+from src import sniffer
+from src import collector
 
 
 class FlowDetector:

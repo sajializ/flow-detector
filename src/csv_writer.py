@@ -3,10 +3,22 @@ import csv
 
 class CSVWriter:
     OUTPUT = "output.csv"
+    HEADER = [
+        "Source IP",
+        "Destination IP",
+        "Source Ports",
+        "Destination Ports",
+        "Protocols",
+        "Duration",
+        "Sent Bytes",
+        "Received Bytes",
+        "Header Bytes FWD",
+    ]
 
     def open(self):
         self.fp = open(CSVWriter.OUTPUT, "w")
         self.writer = csv.writer(self.fp)
+        self.writer.writerow(CSVWriter.HEADER)
 
     def write(self, flow_stat):
         row = [

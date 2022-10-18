@@ -1,9 +1,9 @@
 import sys
 import queue as Queue
 
-from lib import datagram
-from lib import flow
-from lib import csv_writer
+from src import datagram
+from src import flow
+from src import csv_writer
 
 
 class Collector:

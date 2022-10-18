@@ -1,4 +1,4 @@
-from lib import flow_detector
+from src import flow_detector
 
 
 if __name__ == "__main__":

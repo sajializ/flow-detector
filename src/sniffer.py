@@ -4,7 +4,7 @@ import sys
 import os
 
 from _thread import interrupt_main
-from lib import datagram
+from src import datagram
 
 
 class Sniffer:
