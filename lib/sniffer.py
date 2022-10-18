@@ -2,12 +2,20 @@
 import pyshark
 from lib import datagram
 
+import signal
+import sys
 
 class Sniffer:
     
     def __init__(self, if_name):
         self.inteface_name = if_name
         self.capture = pyshark.LiveCapture(interface=self.inteface_name)
+        self.running = True
+        signal.signal(signal.SIGINT, self.signal_handler)
+
+
+    def signal_handler(self, sig, frame):
+        self.running = False
 
 
     def sniff(self, queue):
@@ -28,6 +36,9 @@ class Sniffer:
                                     time=packet_time)
 
                 queue.put(new_packet)
-            except:
+            except AttributeError as e:
                 # New packet was controlling packet, discarded
                 pass
+
+            if not self.running:
+                return
